@@ -1,0 +1,52 @@
+h2 {
+  text-align: center;
+}
+
+.workoutForm {
+
+}
+
+.exerciseInput {
+  margin-bottom: 0;
+}
+
+#workoutAdds {
+  width: 100%;
+  margin: 15px 6px;
+}
+
+.asdf {
+  width: 33.333%;
+}
+
+#exerciseBtn{
+  width: 90%;
+}
+
+
+#restBtn{
+  width: 90%;
+}
+
+
+#reps {
+  width: 90%;
+}
+
+.submitBtn button{
+  width: 60%;
+  margin: auto;
+  display: block;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
