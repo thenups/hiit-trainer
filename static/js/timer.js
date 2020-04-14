@@ -7,32 +7,21 @@ var $exerciseNameDiv = document.querySelector('#exerciseName');
 // userInput's about how much time they need
 var workout = [
   {
-    exercise : 'something1',
+    exercise : 'jumping jacks',
     time : 8
   },
   {
-    exercise : 'something2',
+    exercise : 'rest',
     time : 6
   },
   {
-    exercise : 'rest',
+    exercise : 'pushups',
     time : 3
   }
 ]
 
 setupTimer(workout);
 
-
-// Go through exercise dict and deterime total time for workout
-function totalTime(exercises) {
-  var totalTime = 0;
-
-  for (var i = 0; i < exercises.length; i++) {
-    totalTime += exercises[i]["time"]; // add number to totalTime
-  }
-
-  return totalTime;
-}
 
 // Put starting time on clock and start 1 second countdown
 function setupTimer(w) {
@@ -44,23 +33,26 @@ function setupTimer(w) {
   window.setTimeout(countdown, 1000, w); //run countdown every 1 second
 }
 
+
 // Stop timer if timer = 0, subtract 1 every second)
 function countdown(w) {
 
   // Subtract 1 from most recent exercise
   for (var i = 0; i < w.length; i++) {
-    console.log('-------------');
 
-    if (w[i]["time"] > 0) { // check to see if the time is more than one for that list item
-      w[i]["time"] = w[i]["time"]-1;
+    // check to see if the time is more than one for that list item
+    if (w[i]["time"] > 0) {
 
       // Update Exercise Timer
       updateTimer($timerDiv, w[i]["time"]);
       // Update Exercise Name
       $exerciseNameDiv.innerHTML = w[i]["exercise"];
 
+      break; // break for loop
 
-      break;
+    } else if (w.length-1 == i ) { // exception handler for final exercise
+      // Update Exercise Timer
+      updateTimer($timerDiv, w[i]["time"]);
     }
 
   }
@@ -68,12 +60,14 @@ function countdown(w) {
   // Update total timer
   updateTimer($totalTimerDiv, totalTime(w));
 
-  console.log(totalTime(w));
-
+  // if the total time is down to 0, stop timer
   if (totalTime(w) <= 0) {
     console.log("Time's up!");
     return;
   }
+
+  // Reduce time by 1
+  w[i]["time"] = w[i]["time"]-1;
 
   window.setTimeout(countdown, 1000, w);
 }
@@ -94,4 +88,15 @@ function updateTimer(div, t) {
 // Add leading zero to mm:ss if missing digit
 function leadingZero(time) {
   return (time < 10) ? "0" + time : + time;
+}
+
+// Go through exercise dict and deterime total time for workout
+function totalTime(exercises) {
+  var totalTime = 0;
+
+  for (var i = 0; i < exercises.length; i++) {
+    totalTime += exercises[i]["time"]; // add number to totalTime
+  }
+
+  return totalTime;
 }
