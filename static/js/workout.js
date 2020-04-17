@@ -35,13 +35,17 @@ var workout = function() {
   console.log('create the wokrout');
 }
 
+// var kvpairs = [];
+// var form = // get the form somehow
+// for ( var i = 0; i < form.elements.length; i++ ) {
+//    var e = form.elements[i];
+//    kvpairs.push(encodeURIComponent(e.name) + "=" + encodeURIComponent(e.value));
+// }
+// var queryString = kvpairs.join("&");
 
-var createTimer = function() {
-
-}
 
 // Add event listeners
 $exerciseBtn.addEventListener('click', addExercise);
 $restBtn.addEventListener('click', addExercise);
 // $deleteRow.addEventListener('click', removeExercise);
-$createWorkout.addEventListener('click', workout);
+// $createWorkout.addEventListener('click', workout);

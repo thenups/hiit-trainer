@@ -40,10 +40,10 @@
           <div class="workoutForm" id="exercises">
             <div class="form-row alert alert-primary exerciseInput">
               <div class="col-7">
-                <input type="text" class="form-control" placeholder="Exercise">
+                <input name="exerciseField" type="text" class="form-control" placeholder="Exercise">
               </div>
               <div class="col-4">
-                <input type="text" class="form-control" placeholder="Time (secs)">
+                <input name="timeField" type="number" class="form-control" placeholder="Time (secs)">
               </div>
               <div class="col-1">
                 <div class="center deleteRow"><img class="icon" src="../static/images/remove_icon.png"/></div>
@@ -54,11 +54,11 @@
           <div class="form-row" class="workoutForm" id="workoutAdds">
             <div class="asdf"><button id="exerciseBtn" type="button" class="btn btn-primary" data-toggle="button">Exercise</button></div>
             <div class="asdf"><button id="restBtn" type="button" class="btn btn-warning" data-toggle="button">Rest</button></div>
-            <div class="asdf"><input id="reps" type="text" class="form-control" placeholder="# of Reps"></div>
+            <div class="asdf"><input name="reps" id="reps" type="number" class="form-control" placeholder="# of Reps"></div>
           </div>
 
           <div class="form-row workoutForm submitBtn">
-            <button id="submitBtn" type="submit" class="btn btn-outline-success btn-lg">Create Workout</button>
+            <button id="startTimer" type="submit" class="btn btn-outline-success btn-lg">Start Timer</button>
           </div>
 
         </form>
@@ -66,10 +66,11 @@
 
     </div>
 
+    <!-- <div id="tenCd"></div> -->
     <div id="timer"></div>
     <div id="exerciseName"></div>
     <div id="totalTimer"></div>
-    <button id="timerbtn">Timer Submit</button>
+    <button id="startTimer">Start</button>
     <!-- <script type="text/javascript">window.onload = CreateTimer("timer", 30);</script> -->
 
 

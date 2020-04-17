@@ -1,5 +1,5 @@
 /* Timer based on: http://forum.codecall.net/topic/51639-how-to-create-a-countdown-timer-in-javascript/ */
-
+var $startTimer = document.querySelector('#createWorkout');
 var $timerDiv = document.querySelector('#timer');
 var $totalTimerDiv = document.querySelector('#totalTimer');
 var $exerciseNameDiv = document.querySelector('#exerciseName');
@@ -20,17 +20,17 @@ var workout = [
   }
 ]
 
+// RUN TIMER
 setupTimer(workout);
-
 
 // Put starting time on clock and start 1 second countdown
 function setupTimer(w) {
-  updateTimer($timerDiv, w[0]["time"]); //setup first exercise
-  updateTimer($totalTimerDiv, totalTime(w)); //setup total timeout
+  // updateTimer($timerDiv, w[0]["time"]); //setup first exercise
+  // updateTimer($totalTimerDiv, totalTime(w)); //setup total timeout
 
   // Insert exercise name on screen
   $exerciseNameDiv.innerHTML = w[0]["exercise"];
-  window.setTimeout(countdown, 1000, w); //run countdown every 1 second
+  // window.setTimeout(countdown, 1000, w); //run countdown every 1 second
 }
 
 
@@ -91,12 +91,76 @@ function leadingZero(time) {
 }
 
 // Go through exercise dict and deterime total time for workout
-function totalTime(exercises) {
-  var totalTime = 0;
+function totalTime(w) {
+  console.log(w);
 
-  for (var i = 0; i < exercises.length; i++) {
-    totalTime += exercises[i]["time"]; // add number to totalTime
+  var repTime = 0;
+
+  for (var i = 0; i < w.exercises.length; i++) {
+    repTime += w.exercises[i].time; // add number to totalTime
   }
 
-  return totalTime;
+  var time = repTime * w.reps;
+
+  console.log(time);
+
+  return time;
 }
+
+//Take in dictionary from form and put out easily readable dictionary by exezrcise
+function cleanFormData(d) {
+  var w = {};
+  var e = [];
+
+  // break down exercises
+  for (var i = 0; i < d.length -1 ; i+=2) {
+    var dict = {
+      exercise : d[i].value,
+      time: d[i+1].value
+    }
+
+    // add exercises to dict
+    e.push(dict)
+  }
+
+  // add exercises to dictionary
+  w["exercises"] = e;
+  // add reps to dictionary
+  w["reps"] = d[d.length-1].value;
+
+  return w;
+}
+
+//
+function startTime(e){
+
+  var workout = cleanFormData($('form').serializeArray());
+
+  console.log(workout);
+
+  updateTimer($totalTimerDiv, totalTime(workout)); //setup total timeout
+  console.log('clicked!');
+
+  // 10 second countdown
+  tenSeconds($timerDiv);
+
+   // window.setTimeout(countdown, 1000, w);
+
+   e.preventDefault();
+}
+
+// 10 second countdown once the user hits start
+function tenSeconds(div) {
+
+  // count from 10 down to 1
+  for(var i = 0; i < 10; i++){
+    (function(i){
+        setTimeout(function(){
+            updateTimer(div, 10-i);
+        }, 1000*i+1); // wait 1 second in between
+    })(i);
+  }
+}
+
+// Add event listeners
+$startTimer.addEventListener('submit', startTime);
