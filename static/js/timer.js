@@ -21,21 +21,23 @@ var workout = [
 ]
 
 // RUN TIMER
-setupTimer(workout);
+// setupTimer(workout);
 
 // Put starting time on clock and start 1 second countdown
 function setupTimer(w) {
-  // updateTimer($timerDiv, w[0]["time"]); //setup first exercise
-  // updateTimer($totalTimerDiv, totalTime(w)); //setup total timeout
+  updateTimer($timerDiv, w.exercises[0].time); //setup first exercise
+
+  var fullTime = totalTime(w);
+  updateTimer($totalTimerDiv, fullTime); //setup total timeout
 
   // Insert exercise name on screen
-  $exerciseNameDiv.innerHTML = w[0]["exercise"];
-  // window.setTimeout(countdown, 1000, w); //run countdown every 1 second
+  $exerciseNameDiv.innerHTML = w.exercises[0].time;
+  window.setTimeout(countdown, 1000, w, fullTime); //run countdown every 1 second
 }
 
 
 // Stop timer if timer = 0, subtract 1 every second)
-function countdown(w) {
+function countdown(w, t) {
 
   // Subtract 1 from most recent exercise
   for (var i = 0; i < w.length; i++) {
@@ -58,7 +60,7 @@ function countdown(w) {
   }
 
   // Update total timer
-  updateTimer($totalTimerDiv, totalTime(w));
+  updateTimer($totalTimerDiv, t);
 
   // if the total time is down to 0, stop timer
   if (totalTime(w) <= 0) {
@@ -69,7 +71,7 @@ function countdown(w) {
   // Reduce time by 1
   w[i]["time"] = w[i]["time"]-1;
 
-  window.setTimeout(countdown, 1000, w);
+  window.setTimeout(countdown, 1000, w, t);
 }
 
 // Figure out minutes and seconds to write out clock
@@ -116,7 +118,7 @@ function cleanFormData(d) {
   for (var i = 0; i < d.length -1 ; i+=2) {
     var dict = {
       exercise : d[i].value,
-      time: d[i+1].value
+      time: Number(d[i+1].value)
     }
 
     // add exercises to dict
@@ -137,20 +139,19 @@ function startTime(e){
   var workout = cleanFormData($('form').serializeArray());
 
   console.log(workout);
-
-  updateTimer($totalTimerDiv, totalTime(workout)); //setup total timeout
-  console.log('clicked!');
+  fullTime = totalTime(workout);
+  updateTimer($totalTimerDiv, fullTime); //setup total timeout
 
   // 10 second countdown
-  tenSeconds($timerDiv);
+  tenSeconds(workout, $timerDiv);
 
-   // window.setTimeout(countdown, 1000, w);
-
+   //
+   console.log('clicked!');
    e.preventDefault();
 }
 
 // 10 second countdown once the user hits start
-function tenSeconds(div) {
+function tenSeconds(w, div) {
 
   // count from 10 down to 1
   for(var i = 0; i < 10; i++){
@@ -160,6 +161,8 @@ function tenSeconds(div) {
         }, 1000*i+1); // wait 1 second in between
     })(i);
   }
+
+  window.setTimeout(setupTimer, 1000, w);
 }
 
 // Add event listeners
