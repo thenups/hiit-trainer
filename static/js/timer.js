@@ -32,29 +32,29 @@ function setupTimer(w) {
 
   // Insert exercise name on screen
   $exerciseNameDiv.innerHTML = w.exercises[0].time;
-  window.setTimeout(countdown, 1000, w, fullTime); //run countdown every 1 second
+  window.setTimeout(countdown, 1000, w.exercises, w.reps, fullTime); //run countdown every 1 second
 }
 
 
 // Stop timer if timer = 0, subtract 1 every second)
-function countdown(w, t) {
+function countdown(e, r, t) {
 
   // Subtract 1 from most recent exercise
-  for (var i = 0; i < w.length; i++) {
+  for (var i = 0; i < e.length; i++) {
 
     // check to see if the time is more than one for that list item
-    if (w[i]["time"] > 0) {
+    if (e[i]["time"] > 0) {
 
       // Update Exercise Timer
-      updateTimer($timerDiv, w[i]["time"]);
+      updateTimer($timerDiv, e[i]["time"]);
       // Update Exercise Name
-      $exerciseNameDiv.innerHTML = w[i]["exercise"];
+      $exerciseNameDiv.innerHTML = e[i]["exercise"];
 
       break; // break for loop
 
-    } else if (w.length-1 == i ) { // exception handler for final exercise
+    } else if (e.length-1 == i ) { // exception handler for final exercise
       // Update Exercise Timer
-      updateTimer($timerDiv, w[i]["time"]);
+      updateTimer($timerDiv, e[i]["time"]);
     }
 
   }
@@ -63,15 +63,15 @@ function countdown(w, t) {
   updateTimer($totalTimerDiv, t);
 
   // if the total time is down to 0, stop timer
-  if (totalTime(w) <= 0) {
+  if (t <= 0) {
     console.log("Time's up!");
     return;
   }
 
   // Reduce time by 1
-  w[i]["time"] = w[i]["time"]-1;
+  e[i]["time"] = e[i]["time"]-1;
 
-  window.setTimeout(countdown, 1000, w, t);
+  window.setTimeout(countdown, 1000, e, r, t);
 }
 
 // Figure out minutes and seconds to write out clock
