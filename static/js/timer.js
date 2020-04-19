@@ -25,13 +25,14 @@ var workout = [
 
 // Put starting time on clock and start 1 second countdown
 function setupTimer(w) {
+  console.log('set it up!');
   updateTimer($timerDiv, w.exercises[0].time); //setup first exercise
 
   var fullTime = totalTime(w);
   updateTimer($totalTimerDiv, fullTime); //setup total timeout
 
   // Insert exercise name on screen
-  $exerciseNameDiv.innerHTML = w.exercises[0].time;
+  $exerciseNameDiv.innerHTML = w.exercises[0].exercise;
   window.setTimeout(countdown, 1000, w.exercises, w.reps, fullTime); //run countdown every 1 second
 }
 
@@ -155,14 +156,17 @@ function tenSeconds(w, div) {
 
   // count from 10 down to 1
   for(var i = 0; i < 10; i++){
-    (function(i){
-        setTimeout(function(){
-            updateTimer(div, 10-i);
-        }, 1000*i+1); // wait 1 second in between
-    })(i);
+    countdownDelay(i, div);
   }
 
-  window.setTimeout(setupTimer, 1000, w);
+  window.setTimeout(setupTimer, 10000, w);
+}
+
+function countdownDelay(i, div){
+  setTimeout(function(){
+      updateTimer(div, 10-i);
+      console.log(10-i);
+  }, 1000*i+1);
 }
 
 // Add event listeners
