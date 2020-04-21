@@ -7,54 +7,78 @@ var $exerciseNameDiv = document.querySelector('#exerciseName');
 
 // Put starting time on clock and start 1 second countdown
 function setupTimer(e, r, t) {
-  updateTimer($timerDiv, e[0].time); //setup first exercise
-
-  updateTimer($totalTimerDiv, t); //setup total timeout
-
+  //setup first exercise time
+  updateTimer($timerDiv, e[0].time);
   // Insert exercise name on screen
   $exerciseNameDiv.innerHTML = e[0].exercise;
-  window.setTimeout(countdown, 1000, e, r, t); //run countdown every 1 second
+
+  //setup total timeout
+  updateTimer($totalTimerDiv, t);
+
+  // Start running countdown in 1 second
+  window.setTimeout(countdown, 1000, e, r, t);
 }
 
 
 // Stop timer if timer = 0, subtract 1 every second)
 function countdown(e, r, t) {
+  // a = full exercise listener
+  // e = changeable exercise listener
+  // r = Reps
+  // t = total time for workout
 
-  // Subtract 1 from most recent exercise
-  for (var i = 0; i < e.length; i++) {
 
-    // check to see if the time is more than one for that list item
-    if (e[i]["time"] > 0) {
+  // For ever rep
+  // For every exercise/rest in list
 
-      // Update Exercise Timer
-      updateTimer($timerDiv, e[i]["time"]);
-      // Update Exercise Name
-      $exerciseNameDiv.innerHTML = e[i]["exercise"];
+  console.log(e);
+  console.log(r);
+  console.log(t);
 
-      break; // break for loop
 
-    } else if (e.length-1 == i ) { // exception handler for final exercise
-      // Update Exercise Timer
-      updateTimer($timerDiv, e[i]["time"]);
-    }
-
-  }
-
-  // Update total timer
-  updateTimer($totalTimerDiv, t);
-
-  // if the total time is down to 0, stop timer
-  if (t <= 0) {
-    console.log("Time's up!");
-    return;
-  }
-
-  // Reduce time by 1
-  console.log(e[i]["time"]);
-  e[i]["time"] = e[i]["time"]-1;
-
-  window.setTimeout(countdown, 1000, e, r, t);
+  // for (let n = 0; n < r; n++) {
+  //   let exerciseDict = e;
+  //
+  //   // check to see if the time is more than one for that list item
+  //   for (var i = 0; i < exerciseDict.length; i++) {
+  //
+  //     if (exerciseDict[i].time > 0) {
+  //       let newTimes = timeChange(i, exerciseDict, t);
+  //       break; // break for loop
+  //
+  //     } else if (exerciseDict.length-1 === 1) { // exception handler for final exercise
+  //       // Update Exercise Timer
+  //       updateTimer($timerDiv, exerciseDict[i]["time"]);
+  //     }
+  //
+  //   }
+  //
+  // }
+  // // if the total time is down to 0, stop timer
+  // if (t <= 0) {
+  //   console.log("Time's up!");
+  //   return;
+  // }
+  //
+  // window.setTimeout(countdown, 1000, e, r, t);
 }
+
+function timeChange(i, e, t) {
+  let timeMinusOne = {
+    et: e[i].time-1,
+    t: t-=1
+  }
+
+  // Update Exercise Timer
+  updateTimer($timerDiv, timeMinusOne.et);
+  // Update Exercise Name
+  $exerciseNameDiv.innerHTML = e[i].exercise;
+  // Update total Timer
+  updateTimer($totalTimerDiv, e.time);
+
+  return timeMinusOne;
+}
+
 
 // Figure out minutes and seconds to write out clock
 function updateTimer(div, t) {
@@ -150,9 +174,8 @@ function cdDelay(l, i, div){
 function endCd(w){
   // Setup timer if counter is down to 1 second
   if ($timerDiv.innerHTML === '00:00:01') {
-      console.log('time to start timer!');
       window.setTimeout(setupTimer, 1000, w.exercises, w.reps, totalTime(w));
-    } else {
+    } else { // otherwise continue checking
       window.setTimeout(endCd, 1000, w);
     }
 }
