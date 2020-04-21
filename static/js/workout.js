@@ -35,6 +35,30 @@ var workout = function() {
   console.log('create the wokrout');
 }
 
+//Take in dictionary from form and put out easily readable dictionary by exezrcise
+function cleanFormData(d) {
+  var w = {};
+  var e = [];
+
+  // break down exercises
+  for (let i = 0; i < d.length -1 ; i+=2) {
+    let dict = {
+      exercise : d[i].value,
+      time: Number(d[i+1].value)
+    }
+
+    // add exercises to dict
+    e.push(dict)
+  }
+
+  // add exercises to dictionary
+  w["exercises"] = e;
+  // add reps to dictionary
+  w["reps"] = d[d.length-1].value;
+
+  return w;
+}
+
 // var kvpairs = [];
 // var form = // get the form somehow
 // for ( var i = 0; i < form.elements.length; i++ ) {
