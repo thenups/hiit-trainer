@@ -6,15 +6,14 @@ var $exerciseNameDiv = document.querySelector('#exerciseName');
 
 
 // Put starting time on clock and start 1 second countdown
-function setupTimer(w) {
-  updateTimer($timerDiv, w.exercises[0].time); //setup first exercise
+function setupTimer(e, r, t) {
+  updateTimer($timerDiv, e[0].time); //setup first exercise
 
-  var fullTime = totalTime(w);
-  updateTimer($totalTimerDiv, fullTime); //setup total timeout
+  updateTimer($totalTimerDiv, t); //setup total timeout
 
   // Insert exercise name on screen
-  $exerciseNameDiv.innerHTML = w.exercises[0].exercise;
-  window.setTimeout(countdown, 1000, w.exercises, w.reps, fullTime); //run countdown every 1 second
+  $exerciseNameDiv.innerHTML = e[0].exercise;
+  window.setTimeout(countdown, 1000, e, r, t); //run countdown every 1 second
 }
 
 
@@ -120,8 +119,7 @@ function startCd(e){
   const workout = cleanFormData($('form').serializeArray());
 
   // Calculate the total workout time and filli n appropriate field
-  var fullTime = totalTime(workout);
-  updateTimer($totalTimerDiv, fullTime); //setup total timeout
+  updateTimer($totalTimerDiv, totalTime(workout)); //setup total timeout
 
   // 10 second countdown
   tenSeconds(workout, $timerDiv);
@@ -153,7 +151,7 @@ function endCd(w){
   // Setup timer if counter is down to 1 second
   if ($timerDiv.innerHTML === '00:00:01') {
       console.log('time to start timer!');
-      window.setTimeout(setupTimer, 1000, w);
+      window.setTimeout(setupTimer, 1000, w.exercises, w.reps, totalTime(w));
     } else {
       window.setTimeout(endCd, 1000, w);
     }
