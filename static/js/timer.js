@@ -58,7 +58,7 @@ function countdown(etDict, r, e, n) {
 
   // If workout is over
   if (r==0) {
-    console.log('OVER');
+    workoutComplete();
 
   // What to do with initial countdown to workout
   } else if (!('exercise' in etDict)) {
