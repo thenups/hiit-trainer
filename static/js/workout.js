@@ -1,7 +1,7 @@
-var $exerciseBtn = document.querySelector('#exerciseBtn');
-var $restBtn = document.querySelector('#restBtn');
-var $createWorkout = document.querySelector('#submitBtn')
-var $deleteRow = document.querySelectorAll('.deleteRow');
+// var $exerciseBtn = document.querySelector('#exerciseBtn');
+// var $restBtn = document.querySelector('#restBtn');
+// var $createWorkout = document.querySelector('#submitBtn')
+// var $deleteRow = document.querySelectorAll('.deleteRow');
 
 var addExercise = function(e) {
   console.log(e.target.id);
@@ -31,10 +31,6 @@ var removeExercise = function () {
   console.log('clicked!!!');
 }
 
-var workout = function() {
-  console.log('create the wokrout');
-}
-
 //Take in dictionary from form and put out easily readable dictionary by exezrcise
 function cleanFormData(d) {
   var w = {};
@@ -52,20 +48,12 @@ function cleanFormData(d) {
   }
 
   // add exercises to dictionary
-  w["exercises"] = e;
+  w.exercises = e;
   // add reps to dictionary
-  w["reps"] = d[d.length-1].value;
+  w.reps = d[d.length-1].value;
 
   return w;
 }
-
-// var kvpairs = [];
-// var form = // get the form somehow
-// for ( var i = 0; i < form.elements.length; i++ ) {
-//    var e = form.elements[i];
-//    kvpairs.push(encodeURIComponent(e.name) + "=" + encodeURIComponent(e.value));
-// }
-// var queryString = kvpairs.join("&");
 
 
 // Add event listeners

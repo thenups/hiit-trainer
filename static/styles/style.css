@@ -2,6 +2,10 @@ h2 {
   text-align: center;
 }
 
+.header {
+  text-align: center;
+}
+
 .workoutForm {
 
 }
@@ -15,7 +19,7 @@ h2 {
   margin: 15px 6px;
 }
 
-.asdf {
+.updateEx {
   width: 33.333%;
 }
 
@@ -31,6 +35,10 @@ h2 {
 
 #reps {
   width: 90%;
+}
+
+.exerciseRow {
+  display:inherit;
 }
 
 .submitBtn button{
