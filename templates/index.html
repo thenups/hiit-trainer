@@ -1,22 +1,14 @@
-<!doctype html>
-
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>The HITT Trainer</title>
-    <meta name="description" content="The HITT Trainer">
-    <meta name="author" content="TheNups">
-
+    <title></title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <!-- My CSS -->
     <link rel="stylesheet" href="../static/styles/style.css">
-
   </head>
-
   <body>
 
     <div class="container">
@@ -31,106 +23,77 @@
 
       <div class="row justify-content-center">
 
-        <div class="header col-12">
-            <h3>{{ title }}</h3>
-        </div>
-
-        <div class="">
-          <workout-input></workout-input>
-        </div>
+        <workout-input @create-workout="getWorkout"></workout-input>
+        <timer-ready></timer-ready>
 
       </div>
 
-      <!-- <span v-bind:title="message">
-        Hover your mouse over me for a few seconds
-        to see my dynamically bound title!
-      </span> -->
 
-      <div>
-        <div id="timer"></div>
-        <div id="exerciseName"></div>
-        <div id="totalTimer"></div>
-      </div>
 
     </div>
 
 
 
-      <!-- Example -->
-      <!-- <div class="row">
-        <div class="col-12 alert alert-primary" role="alert">
-          <p id="demo"></p>
-        </div>
-      </div> -->
 
-      <!-- Exercise setup -->
-      <!-- <div class="row justify-content-center">
 
-        <div class="col-12">
-          <h2>Create Your Workout</h2>
-        </div>
 
-        <form id="createWorkout" name="createWorkout">
 
-          <div class="workoutForm" id="exercises">
-            <div class="form-row alert alert-primary exerciseInput">
-              <div class="col-7">
-                <input name="exerciseField" type="text" class="form-control" placeholder="Exercise">
-              </div>
-              <div class="col-4">
-                <input name="timeField" type="number" class="form-control" placeholder="Time (secs)">
-              </div>
-              <div class="col-1">
-                <div class="center deleteRow"><img class="icon" src="../static/images/remove_icon.png"/></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row" class="workoutForm" id="workoutAdds">
-            <div class="asdf"><button id="exerciseBtn" type="button" class="btn btn-primary" data-toggle="button">Exercise</button></div>
-            <div class="asdf"><button id="restBtn" type="button" class="btn btn-warning" data-toggle="button">Rest</button></div>
-            <div class="asdf"><input name="reps" id="reps" type="number" class="form-control" placeholder="# of Reps"></div>
-          </div>
-
-          <div class="form-row workoutForm submitBtn">
-            <button id="startTimer" type="submit" class="btn btn-outline-success btn-lg">Start Timer</button>
-          </div>
-
-        </form>
-      </div>
-
-    </div> -->
     <script type="text/x-template" id="workout-input-template">
-      <form id="createWorkout" name="createWorkout" class="" action="" >
-        <div class="workoutForm" id="exercises">
-          <exercise-input ref="exerciseInput"></exercise-input>
+      <div>
+        <div class="header col-12">
+            <h3>{{ title }}</h3>
         </div>
+        <div class="">
+          <form id="createWorkout" ref="createWorkout" @submit.prevent="startTimer" class="" action="" >
+            <div class="workoutForm" id="exercises">
+              <exercise-input ref="exerciseInput" @sendExercises="recieveExercises"></exercise-input>
+            </div>
 
-        <div class="form-row workoutForm" id="workoutAdds">
-          <div class="updateEx"><add-row ></add-row></div>
-          <div class="updateEx"><add-row></add-row></div>
-          <div class="updateEx"><input name="reps" id="reps" type="number" class="form-control" placeholder="# of Reps"></div>
-        </div>
+            <div class="form-row workoutForm" id="workoutAdds">
+              <div class="updateEx"><button id="exerciseBtn" @click="newExercise(true)" type="button" class="btn btn-primary" data-toggle="button">Exercise</button></div>
+              <div class="updateEx"><button id="restBtn" @click="newExercise(false)" type="button" class="btn btn-warning" data-toggle="button">Rest</button></div>
+              <div class="updateEx"><input name="reps" id="reps" v-model="reps" type="number" class="form-control" placeholder="# of Reps"></div>
+            </div>
 
-        <div class="form-row workoutForm submitBtn">
-          <button id="startTimer" v-on:click="startTimer" type="submit" class="btn btn-outline-success btn-lg">Start Timer</button>
+            <div class="form-row workoutForm submitBtn">
+              <button id="startTimer" type="submit" class="btn btn-outline-success btn-lg">Start Timer</button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </script>
     <script type="text/x-template" id="exercise-input-template">
-      <div class="form-row alert alert-primary exerciseInput">
-        <div class="col-7">
-          <input v-model="exercises.exercise" type="text" class="form-control" placeholder="Exercise">
-        </div>
-        <div class="col-4">
-          <input v-model="exercises.time" type="number" class="form-control" placeholder="Time (secs)">
-        </div>
-        <div class="col-1">
-          <div class="center deleteRow"><img class="icon" src="../static/images/remove_icon.png"/></div>
+      <div class="exerciseRow">
+        <div v-for="(exercise, index) in exercises" :class="exercise.inputLineDefault" class="form-row alert exerciseInput">
+          <div class="col-7">
+            <input type="text" :disabled="exercise.disabled" v-model="exercise.name" class="form-control" placeholder="Exercise">
+          </div>
+          <div class="col-4">
+            <input type="number" v-model="exercise.time" class="form-control" placeholder="Time (secs)">
+          </div>
+          <div class="col-1">
+            <div class="center deleteRow" @click="removeExercise(index)"><img class="icon" src="../static/images/remove_icon.png"/></div>
+          </div>
         </div>
       </div>
     </script>
+    <script type="text/x-template" id="timer-ready-template">
+      <div class="row justify-content-center">
+        <div class="col-sm-8">
+          <timer-div></timer-div>
+        </div>
+        <div class="col-sm-4">
 
+        </div>
+      </div>
+    </script>
+    <script type="text/x-template" id="timer-template">
+      <div>
+        <div id="timer"></div>
+        <div id="exerciseName"></div>
+        <div id="totalTimer"></div>
+      </div>
+    </script>
 
     <!-- VueJS development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -140,11 +103,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <!-- My JS -->
-    <script src="../static/js/builder.js"></script>
-    <script src="../static/js/workout.js"></script>
-    <script src="../static/js/timer.js"></script>
-
+    <script src="../static/js/app.js"></script>
 
   </body>
 </html>

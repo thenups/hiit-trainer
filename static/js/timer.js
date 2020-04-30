@@ -1,5 +1,4 @@
 /* Timer based on: http://forum.codecall.net/topic/51639-how-to-create-a-countdown-timer-in-javascript/ */
-var $startTimer = document.querySelector('#createWorkout');
 var $timerDiv = document.querySelector('#timer');
 var $totalTimerDiv = document.querySelector('#totalTimer');
 var $exerciseNameDiv = document.querySelector('#exerciseName');
