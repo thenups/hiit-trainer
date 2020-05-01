@@ -21,41 +21,31 @@
         <h1>HIIT Workout Timer</h1>
       </div>
 
-      <div class="row justify-content-center">
-
-        <workout-input @create-workout="getWorkout"></workout-input>
-        <timer-ready></timer-ready>
-
-      </div>
-
+      <workout-input @create-workout="getWorkout" v-if="show"></workout-input>
+      <timer-ready :workout="workout" ref="hiitTimer" v-if="!show"></timer-ready>
 
 
     </div>
 
 
-
-
-
-
-
     <script type="text/x-template" id="workout-input-template">
-      <div>
+      <div class="row justify-content-center">
         <div class="header col-12">
             <h3>{{ title }}</h3>
         </div>
         <div class="">
           <form id="createWorkout" ref="createWorkout" @submit.prevent="startTimer" class="" action="" >
-            <div class="workoutForm" id="exercises">
+            <div class="" id="exercises">
               <exercise-input ref="exerciseInput" @sendExercises="recieveExercises"></exercise-input>
             </div>
 
-            <div class="form-row workoutForm" id="workoutAdds">
-              <div class="updateEx"><button id="exerciseBtn" @click="newExercise(true)" type="button" class="btn btn-primary" data-toggle="button">Exercise</button></div>
-              <div class="updateEx"><button id="restBtn" @click="newExercise(false)" type="button" class="btn btn-warning" data-toggle="button">Rest</button></div>
-              <div class="updateEx"><input name="reps" id="reps" v-model="reps" type="number" class="form-control" placeholder="# of Reps"></div>
+            <div class="form-row " id="workoutAdds">
+              <div class="updateEx"><button @click="newExercise(true)" type="button" class="btn btn-primary manipulateExBtns" data-toggle="button">Exercise</button></div>
+              <div class="updateEx"><button @click="newExercise(false)" type="button" class="btn btn-warning manipulateExBtns" data-toggle="button">Rest</button></div>
+              <div class="updateEx"><input name="reps" v-model="reps" type="number" class="form-control manipulateExBtns" placeholder="# of Reps"></div>
             </div>
 
-            <div class="form-row workoutForm submitBtn">
+            <div class="form-row submitBtn">
               <button id="startTimer" type="submit" class="btn btn-outline-success btn-lg">Start Timer</button>
             </div>
           </form>
@@ -78,9 +68,9 @@
       </div>
     </script>
     <script type="text/x-template" id="timer-ready-template">
-      <div class="row justify-content-center">
+      <div class="row">
         <div class="col-sm-8">
-          <timer-div></timer-div>
+          <timer-div :workout="workout" ref="timerDiv"></timer-div>
         </div>
         <div class="col-sm-4">
 
@@ -89,9 +79,14 @@
     </script>
     <script type="text/x-template" id="timer-template">
       <div>
-        <div id="timer"></div>
-        <div id="exerciseName"></div>
-        <div id="totalTimer"></div>
+        <div id="exerciseName" class="fullspan">{{ timerInfo.exerciseName }}</div>
+        <div id="exerciseTimer" class="fullspan">{{ timerInfo.exerciseTime }}</div>
+        <div class="wrapper fullspan">
+            <div id="repNo" class="bottomRow">{{ allReps.current }} / {{ allReps.total }}</div>
+            <div id="totalTimer" class="bottomRow">{{ timerInfo.totalTime }}</div>
+            <div id="playpause" class="bottomRow">play</div>
+            <div id="cancel" class="bottomRow">X</div>
+        </div>
       </div>
     </script>
 
@@ -104,6 +99,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <script src="../static/js/app.js"></script>
+    <!-- <script src="../static/js/timer.js"></script> -->
 
   </body>
 </html>

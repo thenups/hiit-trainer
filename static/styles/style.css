@@ -1,13 +1,11 @@
+/* Workout Form Styling */
+
 h2 {
   text-align: center;
 }
 
 .header {
   text-align: center;
-}
-
-.workoutForm {
-
 }
 
 .exerciseInput {
@@ -23,17 +21,7 @@ h2 {
   width: 33.333%;
 }
 
-#exerciseBtn{
-  width: 90%;
-}
-
-
-#restBtn{
-  width: 90%;
-}
-
-
-#reps {
+.manipulateExBtns{
   width: 90%;
 }
 
@@ -57,4 +45,58 @@ h2 {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+
+
+
+/* Timer Styling */
+.fullspan {
+  width: 100%;
+  text-align: center;
+}
+
+.bottomRow {
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.wrapper {
+  display: flex;
+}
+
+#exerciseName {
+  border: 2px solid #FF9900;
+  background: #FFCC33;
+  color: #630;
+  font-size: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#exerciseTimer {
+  border: 2px solid #39F;
+  background: #9CF;
+  color: #036;
+  font-size: 75px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.bottomRow {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#totalTimer {
+  width: 70%
+}
+
+#playPause {
+  width: 15%;
+}
+
+#cancel {
+  width: 15%;
 }

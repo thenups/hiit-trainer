@@ -5,14 +5,12 @@ var $exerciseNameDiv = document.querySelector('#exerciseName');
 
 
 // Countdown 10 seconds before beginning actual workout
-function startCountdown(e) {
-  // Get all form data
-  const workout = cleanFormData($('form').serializeArray());
+function startCountdown(workout) {
 
   // Do 10 second countdown before exercise
   let cntdwn = {
     total: {
-      time: 3,
+      time: 10,
       div: $timerDiv,
       totalTime: totalTime(workout)
     }
@@ -20,8 +18,6 @@ function startCountdown(e) {
 
   // Start countdown
   countdown(cntdwn, workout.reps, workout.exercises);
-
-  e.preventDefault();
 }
 
 // Setup Timer with actual workout
@@ -37,7 +33,7 @@ function setupTimer(cd, r, e) {
     },
     exercise: {
       time: e[n].time,
-      name: e[n].exercise,
+      name: e[n].name,
       div: $timerDiv
     }
   }
@@ -105,7 +101,7 @@ function nextExercise(etDict, r, e, n) {
 // Update time and name for next exercise
 function updateTimeDict(etDict, n, e) {
   etDict.exercise.time = e[n].time;
-  etDict.exercise.name = e[n].exercise;
+  etDict.exercise.name = e[n].name;
 
   return etDict;
 }
@@ -143,10 +139,11 @@ function totalTime(w) {
   }
 
   var time = repTime * w.reps;
+  console.log(time);
 
   return time;
 }
 
 
 // Add event listeners
-$startTimer.addEventListener('submit', startCountdown);
+// $startTimer.addEventListener('submit', startCountdown);
