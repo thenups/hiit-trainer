@@ -1,10 +1,22 @@
-/* Workout Form Styling */
+.pageStyle {
+  background: rgba(39,39,39,1);
+  font-family: 'Verdana', sans-serif;
+  color: rgba(39,39,39,.5);
+}
 
-h2 {
+.fullspan {
+  width: 100%;
   text-align: center;
 }
 
 .header {
+  text-align: center;
+  color: rgba(255,255,255,.75);
+}
+
+/* Workout Form Styling */
+
+h2 {
   text-align: center;
 }
 
@@ -51,15 +63,8 @@ h2 {
 
 
 /* Timer Styling */
-.fullspan {
-  width: 100%;
-  text-align: center;
-}
-
-.bottomRow {
-  text-align: center;
-  padding-top: 30px;
-  padding-bottom: 30px;
+.timerDiv {
+  padding-left: 0;
 }
 
 .wrapper {
@@ -67,36 +72,65 @@ h2 {
 }
 
 #exerciseName {
-  border: 2px solid #FF9900;
-  background: #FFCC33;
-  color: #630;
+  border-bottom: 5px solid rgba(0,0,0,.5);
+  background: #FFE400;
+  color: rgba(0,0,0,.75);
   font-size: 30px;
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
 #exerciseTimer {
-  border: 2px solid #39F;
+  border-bottom: 5px solid rgba(0,0,0,.5);
   background: #9CF;
   color: #036;
   font-size: 75px;
   padding-top: 50px;
   padding-bottom: 50px;
 }
-
 .bottomRow {
+  font-size: 20px
+}
+
+.bottomRowComp {
   padding-top: 20px;
   padding-bottom: 20px;
+  text-align: center;
+}
+
+.playButton {
+}
+
+.alterTimerBtns {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: bolder;
+  font-size: xx-large;
+  width: 15%;
+}
+
+.totalsBoxes {
+  background: #474747;
+  color: rgba(255,255,255,.75)
+}
+
+.timerNumbers {
+  font-family: 'DejaVu Sans Mono', monospace
+}
+
+#repNo {
+  width: 15%
 }
 
 #totalTimer {
-  width: 70%
+  width: 55%
 }
 
 #playPause {
-  width: 15%;
+
 }
 
 #cancel {
-  width: 15%;
+  background: #FF652F;
+  color: rgba(0,0,0,.5);
 }

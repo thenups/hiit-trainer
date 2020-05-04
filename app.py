@@ -16,6 +16,7 @@ from sqlalchemy import create_engine, func, inspect, Column, Integer, String
 
 import os
 
+
 #################################################
 # Engine Setup
 #################################################
@@ -24,7 +25,17 @@ import os
 #################################################
 # Flask Setup
 #################################################
+# configuration
+DEBUG = True
+
+# instantiate the app
 app = Flask(__name__)
+app.config.from_object(__name__)
+
+# enable CORS
+CORS(app, resources={r'/*': {'origins': '*'}})
+
+
 Compress(app)
 CORS(app)
 
@@ -37,3 +48,12 @@ def index():
     """Return the  homepage."""
 
     return render_template('index.html')
+
+# sanity check route
+@app.route('/ping', methods=['GET'])
+def ping_pong():
+    return jsonify('pong!')
+
+
+if __name__ == '__main__':
+    app.run()

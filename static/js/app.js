@@ -10,7 +10,8 @@ var HiitTimer = {
       allReps: {
         current: 1,
         total: 0
-      }
+      },
+      paused: false
     }
   },
   methods: {
@@ -18,8 +19,9 @@ var HiitTimer = {
 
       // Do 10 second countdown before exercise
       let cd = {
-        total: {
-          time: 10,
+        exercise: {
+          time: 5,
+          name: 'countdown',
           loc: 'exerciseTime',
           totalTime: this.totalTime(workout)
         }
@@ -36,7 +38,7 @@ var HiitTimer = {
       // Create dict for first exercise
       let firstExercise = {
         total: {
-          time: cd.total.totalTime,
+          time: cd.exercise.totalTime,
           loc: 'totalTime'
         },
         exercise: {
@@ -63,8 +65,9 @@ var HiitTimer = {
         this.workoutComplete();
 
       // What to do with initial countdown to workout
-      } else if (!('exercise' in etDict)) {
-        if (etDict.total.time > 0) {
+    } else if (!('total' in etDict)) {
+        if (etDict.exercise.time > 0) {
+            this.timerInfo.exerciseName = etDict.exercise.name;
             window.setTimeout(this.countdown, 1000, etDict, r, e);
         } else {
           window.setTimeout(this.setupTimer, 1000, etDict, r, e);
@@ -258,7 +261,7 @@ var WorkoutInput = {
 }
 
 var app = new Vue({
-  el: '.container',
+  el: '#app',
   data: {
     workout: {fake: 'news'},
     show: true
