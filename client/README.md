@@ -1,4 +1,4 @@
-# vuetest
+# client
 
 ## Project setup
 ```

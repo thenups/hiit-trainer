@@ -1,18 +1,33 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="row justify-content-md-center">
+    <div class="header col-12">
+        <h3>Create Your Workout</h3>
+    </div>
+    <div class="">
+      <workout-form></workout-form>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import CreateWorkout from '@/components/CreateWorkout.vue';
 
 export default {
-  name: 'Home',
+  name: 'HIIT Timer - Create Workout',
+  data() {
+    return {
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    'workout-form': CreateWorkout,
+  },
+};
 </script>
+
+<style scoped>
+  h3 {
+    font-size: 30px;
+  }
+
+</style>
