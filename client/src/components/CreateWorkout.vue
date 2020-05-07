@@ -1,7 +1,7 @@
 <template>
-    <form id="createWorkout" ref="createWorkout" @submit.prevent="startTimer" class="" action="" >
+    <form id="createWorkout" ref="createWorkout" @submit.prevent="saveExerciseData">
         <div class="" id="exercises">
-          <exercise-input ref="exerciseInput" @sendExercises="recieveExercises"></exercise-input>
+          <exercise-input ref="exerciseInput"></exercise-input>
         </div>
 
         <div class="form-row" id="workoutAdds">
@@ -29,14 +29,14 @@
         <div class="form-row submitBtn">
           <button id="startTimer"
             type="submit"
-            class="btn btn-outline-success btn-lg">Start Timer</button>
+            class="btn btn-outline-success btn-lg">SaveWorkout</button>
         </div>
     </form>
 </template>
 
 <script>
 // @ is an alias to /src
-import ExerciseInput from '@/components/BuildExerciseList.vue';
+import ExerciseInput from '@/components/children/BuildExerciseList.vue';
 
 export default {
   data() {
@@ -56,16 +56,22 @@ export default {
         this.$refs.exerciseInput.addRest();
       }
     },
-    startTimer() {
+    saveExerciseData() {
+      // Let child component save exercises
       this.$refs.exerciseInput.sendExercises();
-    },
-    recieveExercises(e) {
-      const fullWorkout = {
-        reps: this.reps,
-        exercises: e,
-      };
 
-      this.$emit('create-workout', fullWorkout);
+      const payload = [
+        {
+          type: 'reps',
+          data: Number(this.reps),
+        },
+      ];
+
+      // Save reps to veux/state
+      this.$store.commit('createWorkout', payload);
+
+      // Switch to the timer page
+      this.$router.push({ name: 'TimerPage' });
     },
   },
 };

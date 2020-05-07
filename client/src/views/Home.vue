@@ -14,7 +14,6 @@
 import CreateWorkout from '@/components/CreateWorkout.vue';
 
 export default {
-  name: 'HIIT Timer - Create Workout',
   data() {
     return {
     };
@@ -28,6 +27,7 @@ export default {
 <style scoped>
   h3 {
     font-size: 30px;
+    color: rgba(255,255,255,.75);
   }
 
 </style>

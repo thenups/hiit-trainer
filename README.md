@@ -9,3 +9,17 @@ Customizable High-Intensity-Interval-Training timer with pre-set workouts
 
 ### Part 2
 - Have preset timers with exercises associated with them
+
+
+Link Vue and Flask: https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/
+
+Deploying vue app: https://testdriven.io/blog/deploying-flask-to-heroku-with-docker-and-gitlab/
+
+Build vue app: https://www.nativescript.org/vue
+
+
+
+
+
+cheats:
+npm run lint -- --fix

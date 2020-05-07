@@ -6,21 +6,22 @@
 </template>
 
 <script>
-import UniversalMenu from '@/components/UniversalMenu.vue';
+import Menu from '@/components/universal/Menu.vue';
 
 export default {
   components: {
-    'universal-menu': UniversalMenu,
+    'universal-menu': Menu,
   },
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Verdana', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  margin-right:0;
+  margin-left:0;
 }
 </style>

@@ -7,7 +7,9 @@
               class="totalsBoxes">
                 Rep:<br />{{ allReps.current }} / {{ allReps.total }}
             </div>
-            <div id="totalTimer" class="timerNumbers totalsBoxes">{{ timerInfo.totalTime }}</div>
+            <div id="totalTimer" class="timerNumbers totalsBoxes">
+              <div class="separator">{{ timerInfo.totalTime }}</div>
+            </div>
             <div id="playPause" class="playButton alterTimerBtns" v-if="!paused">||</div>
             <div id="playPause" class="playButton alterTimerBtns" v-if="paused">play</div>
             <div id="cancel" class="alterTimerBtns">X</div>
@@ -19,9 +21,9 @@
 
 
 export default {
-  name: 'countdown',
   data() {
     return {
+      workout: this.$store.state.workout,
       timerInfo: {
         exerciseTime: '',
         exerciseName: '',
@@ -34,20 +36,24 @@ export default {
       paused: false,
     };
   },
+  mounted() {
+    // console.log('mounted', this.workout, this.$el);
+    this.startCountdown();
+  },
   methods: {
-    startCountdown(workout) {
+    startCountdown() {
       // Do 10 second countdown before exercise
       const cd = {
         exercise: {
           time: 5,
           name: 'countdown',
           loc: 'exerciseTime',
-          totalTime: this.totalTime(workout),
+          totalTime: this.totalTime(this.workout),
         },
       };
 
       // Start countdown
-      this.countdown(cd, workout.reps, workout.exercises);
+      this.countdown(cd, this.workout.reps, this.workout.exercises);
     },
     // Setup Timer with actual workout
     setupTimer(cd, r, e) {
@@ -76,13 +82,9 @@ export default {
 
       // Look at dict and countdown 1 second per item
       Object.keys(updatedDict).forEach((key) => {
-        this.updateTimer(updatedDict[key].loc, key.time);
+        this.updateTimer(updatedDict[key].loc, updatedDict[key].time);
         updatedDict[key].time -= 1;
       });
-      // for (const [value] of Object.entries(updatedDict)) {
-      //   this.updateTimer(value.loc, value.time);
-      //   value.time -= 1;
-      // }
 
       // If workout is over
       if (r === 0) {
@@ -112,7 +114,7 @@ export default {
     // Move to the next exercise for the countdown
     nextExercise(etDict, r, e, n) {
       let updatedDict = etDict;
-      let newR = 0;
+      let newR = r;
 
       // increase exercise number
       let updatedN = n + 1;
@@ -126,7 +128,7 @@ export default {
       } else {
         updatedN = 0;
         updatedDict = this.updateTimeDict(updatedDict, updatedN, e);
-        newR = r - 1;
+        newR -= 1;
       }
 
       // Start countdown for next exercise
@@ -148,12 +150,12 @@ export default {
     // Figure out minutes and seconds to write out clock
     updateTimer(loc, t) {
       let seconds = t;
-      const hours = Math.floor(seconds / 3600);
-      seconds -= hours * (3600);
+      // const hours = Math.floor(seconds / 3600);
+      // seconds -= hours * (3600);
       const minutes = Math.floor(seconds / 60);
       seconds -= minutes * (60);
 
-      const timeStr = `${this.leadingZero(hours)}:${this.leadingZero(minutes)}:${this.leadingZero(seconds)}`;
+      const timeStr = `${this.leadingZero(minutes)}:${this.leadingZero(seconds)}`;
 
       if (loc === 'exerciseTime') {
         this.timerInfo.exerciseTime = timeStr;
@@ -182,13 +184,96 @@ export default {
     },
 
   },
-  mounted() {
-    // console.log('mounted', this.workout, this.$el);
-    this.startCountdown(this.workout);
-  },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .timerDiv {
+    padding-left: 0;
+  }
 
+  .wrapper {
+    display: flex;
+  }
+
+  #exerciseName {
+    border-bottom: 5px solid rgba(0,0,0,.5);
+    background: #FFE400;
+    color: rgba(0,0,0,.75);
+    font-size: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  #exerciseTimer {
+    border-bottom: 5px solid rgba(0,0,0,.5);
+    background: #9CF;
+    color: #036;
+    font-size: 75px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  .bottomRow {
+    font-size: 20px
+  }
+
+  .playButton {
+  }
+
+  .alterTimerBtns {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: bolder;
+    font-size: xx-large;
+    width: 15%;
+    font-family: "Andale Mono", monospace;
+  }
+
+  .totalsBoxes {
+    background: #474747;
+    color: rgba(255,255,255,.75)
+  }
+
+  .timerNumbers {
+    font-family: 'DejaVu Sans Mono', monospace
+  }
+
+  #repNo {
+    width: 15%;
+    border-right: rgba(0,0,0,.5)
+  }
+
+  .separator {
+    margin:10px 0;
+  }
+
+  #totalTimer {
+    width: 55%
+  }
+
+  //https://css-tricks.com/making-pure-css-playpause-button/
+  #playPause {
+    background: #61892F;
+    // box-sizing: border-box;
+    // height: 74px;
+    // border-color: transparent transparent transparent #202020;
+    // transition: 100ms all ease;
+    // will-change: border-width;
+    // cursor: pointer;
+
+    // // play state
+    // border-style: solid;
+    // border-width: 37px 0 37px 60px;
+
+    // // paused state
+    // &.pause {
+    //   border-style: double;
+    //   border-width: 0px 0 0px 60px;
+    // }
+  }
+
+  #cancel {
+    background: #FF652F;
+    color: rgba(0,0,0,.5);
+  }
 </style>

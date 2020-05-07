@@ -12,8 +12,11 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    createWorkout(state, workout) {
-      state.workout = workout;
+    // create workout dictionary by iterating through list of values
+    createWorkout(state, payload) {
+      payload.forEach((i) => {
+        state.workout[i.type] = i.data;
+      });
     },
   },
   actions: {
