@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomePage from '../views/Home.vue';
 import TimerPage from '../views/Timer.vue';
+import SavePage from '../views/SaveWorkout.vue';
 // import ExercisesPage from '../views/Exercises.vue';
 import Ping from '../components/Ping.vue';
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/timer',
     name: 'TimerPage',
     component: TimerPage,
+  },
+  {
+    path: '/save',
+    name: 'SavePage',
+    component: SavePage,
   },
   // {
   //   path: '/exercises',

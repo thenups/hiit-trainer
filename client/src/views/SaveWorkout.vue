@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-content-md-center">
     <div class="header col-12">
-        <h3>Create Your Workout</h3>
+        <h3>Save Your Workout</h3>
     </div>
     <div class="">
       <create-workout :saveOnly="saveOnly"></create-workout>
@@ -16,7 +16,7 @@ import CreateWorkout from '@/components/CreateWorkout.vue';
 export default {
   data() {
     return {
-      saveOnly: false,
+      saveOnly: true,
     };
   },
   components: {

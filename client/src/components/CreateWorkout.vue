@@ -1,111 +1,50 @@
 <template>
-    <form id="createWorkout" ref="createWorkout" @submit.prevent="saveExerciseData">
-        <div class="" id="exercises">
-          <exercise-input ref="exerciseInput"></exercise-input>
-        </div>
-
-        <div class="form-row" id="workoutAdds">
-          <div class="updateEx">
-            <button @click="newExercise(true)"
-              type="button"
-              class="btn btn-primary manipulateExBtns"
-              data-toggle="button">Exercise</button>
-          </div>
-          <div class="updateEx">
-            <button @click="newExercise(false)"
-              type="button"
-              class="btn btn-warning manipulateExBtns"
-              data-toggle="button">Rest</button>
-          </div>
-          <div class="updateEx">
-            <input name="reps"
-              v-model="reps"
-              type="number"
-              class="form-control manipulateExBtns"
-              placeholder="# of Reps" required>
-          </div>
-        </div>
-
+    <form id="createWorkout" @submit.prevent="saveWorkoutData">
+        <workout-form ref="workoutForm"></workout-form>
         <div class="form-row submitBtn">
-          <button id="startTimer"
+          <button id="submitForm"
             type="submit"
-            class="btn btn-outline-success btn-lg">SaveWorkout</button>
+            class="btn btn-outline-success btn-lg">Start Workout</button>
         </div>
     </form>
 </template>
 
 <script>
 // @ is an alias to /src
-import ExerciseInput from '@/components/children/BuildExerciseList.vue';
+import WorkoutForm from '@/components/children/WorkoutForm.vue';
 
 export default {
-  data() {
-    return {
-      exercises: [],
-      reps: '',
-    };
+  props: {
+    saveOnly: Boolean,
   },
   components: {
-    'exercise-input': ExerciseInput,
+    'workout-form': WorkoutForm,
   },
   methods: {
-    newExercise(exercise) {
-      if (exercise) {
-        this.$refs.exerciseInput.addExercise();
+    saveWorkoutData() {
+      // Save child data to veux
+      this.$refs.workoutForm.saveWorkout();
+
+      // If this is not just to save an exercise
+      if (!this.saveOnly) {
+        // Switch to the timer page
+        this.$router.push({ name: 'TimerPage' });
       } else {
-        this.$refs.exerciseInput.addRest();
+        this.updateDB();
       }
     },
-    saveExerciseData() {
-      // Let child component save exercises
-      this.$refs.exerciseInput.sendExercises();
+    updateDB() {
 
-      const payload = [
-        {
-          type: 'reps',
-          data: Number(this.reps),
-        },
-      ];
-
-      // Save reps to veux/state
-      this.$store.commit('createWorkout', payload);
-
-      // Switch to the timer page
-      this.$router.push({ name: 'TimerPage' });
     },
   },
 };
 </script>
 
 <style scoped>
-
-
-  #workoutAdds {
-    width: 100%;
-    margin: 15px 6px;
-  }
-
-  .updateEx {
-    width: 33.333%;
-  }
-
-  .manipulateExBtns{
-    width: 90%;
-  }
-
-  .exerciseRow {
-    display:inherit;
-  }
-
   .submitBtn button{
     width: 60%;
     margin: auto;
     display: block;
-  }
-
-  .icon {
-    width: 15px;
-    height: 15px;
   }
 
   /* .center {
