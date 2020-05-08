@@ -4,14 +4,16 @@
         <div class="form-row submitBtn">
           <button id="submitForm"
             type="submit"
-            class="btn btn-outline-success btn-lg">Start Workout</button>
+            class="btn btn-outline-success btn-lg">{{ buttonCTA }}</button>
         </div>
     </form>
 </template>
 
 <script>
+import axios from 'axios';
 // @ is an alias to /src
 import WorkoutForm from '@/components/children/WorkoutForm.vue';
+
 
 export default {
   props: {
@@ -19,6 +21,14 @@ export default {
   },
   components: {
     'workout-form': WorkoutForm,
+  },
+  computed: {
+    buttonCTA() {
+      if (this.saveOnly) {
+        return 'Save Workout';
+      }
+      return 'Start Workout';
+    },
   },
   methods: {
     saveWorkoutData() {
@@ -30,11 +40,20 @@ export default {
         // Switch to the timer page
         this.$router.push({ name: 'TimerPage' });
       } else {
-        this.updateDB();
+        window.setTimeout(this.updateDB, 1000, this.$store.state.workout);
       }
     },
-    updateDB() {
+    updateDB(payload) {
+      const path = 'http://localhost:5000/workouts';
 
+      axios.post(path, payload)
+        .then(() => {
+          this.$router.push({ name: 'WorkoutsPage' });
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error);
+        });
     },
   },
 };
