@@ -9,6 +9,7 @@ from flask import Response
 from flask_cors import CORS
 # from flask_compress import Compress
 
+# from flask_pymongo import PyMongo
 # import sqlalchemy
 # from sqlalchemy.ext.automap import automap_base
 # from sqlalchemy.ext.declarative import declarative_base
@@ -16,12 +17,6 @@ from flask_cors import CORS
 # from sqlalchemy import create_engine, func, inspect, Column, Integer, String
 
 import os
-
-
-#################################################
-# Engine Setup
-#################################################
-
 
 #################################################
 # Flask Setup
@@ -35,6 +30,16 @@ app.config.from_object(__name__)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
+
+#################################################
+# MongoDB Setup
+#################################################
+# MONGO_URL = os.environ.get('MONGO_URL')
+# if not MONGO_URL:
+#     MONGO_URL = "mongodb://<dbuser>:<dbpassword>@ds255857.mlab.com:55857/heroku_vd9z8ksv";
+
+# app.config["MONGO_URI"] = MONGO_URL
+# mongo = PyMongo(app)
 
 #################################################
 # Flask Routes
@@ -91,20 +96,23 @@ def all_workouts():
 
     # What to do for post
     if request.method == 'POST':
-        #Get info
+        #Get get data from form
         post_data = request.get_json()
         #Add to DB
-        WORKOUTS.append({
-            'id': uuid.uuid4().hex,
-            'reps': post_data.get('reps'),
-            'exercises': post_data.get('exercises'),
-        })
+        docu = {
+                'reps': post_data.get('reps'),
+                'exercises': post_data.get('exercises'),
+                'tags': post_data.get('tags')
+            }
+        
+        mongo.db.workouts.insert_one(docu)
+
         response_object['message'] = 'Workout added!'
 
     # What to do for GET
     else:
         #Send all exercises
-        response_object['workouts'] = WORKOUTS
+        response_object['workouts'] = mongo.db.workouts
 
     # return response
     return jsonify(response_object)

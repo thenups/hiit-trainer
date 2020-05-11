@@ -10,7 +10,11 @@
 // imports
 
 export default {
-
+  data() {
+    return {
+      workoutList: [],
+    };
+  },
 };
 </script>
 

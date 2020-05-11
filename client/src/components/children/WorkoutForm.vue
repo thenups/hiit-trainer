@@ -25,6 +25,15 @@
               placeholder="# of Reps" required>
           </div>
         </div>
+        <!-- <div class="form-row" id="">
+          <div class="updateEx">
+            <input name="tags"
+              v-model="reps"
+              type="number"
+              class="form-control"
+              placeholder="Tags...">
+          </div>
+        </div> -->
     </div>
 </template>
 
