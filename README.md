@@ -1,6 +1,14 @@
 # hiit-trainer
-Customizable High-Intensity-Interval-Training timer with pre-set workouts:
-[https://hiit-workout-app.herokuapp.com/](https://hiit-workout-app.herokuapp.com/)
+### **[https://hiit-workout-app.herokuapp.com/](https://hiit-workout-app.herokuapp.com/)**
+
+Customizable High-Intensity-Interval-Training timer with pre-set workouts.
+
+## Technology
+- Server: Flask
+- Client:
+    - Vue.js CLI
+    - Vue Router
+    - Vue Store
 
 ## Scope
 ### Part 1
