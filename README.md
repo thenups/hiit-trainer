@@ -1,5 +1,6 @@
 # hiit-trainer
-Customizable High-Intensity-Interval-Training timer with pre-set workouts
+Customizable High-Intensity-Interval-Training timer with pre-set workouts:
+[https://hiit-workout-app.herokuapp.com/](https://hiit-workout-app.herokuapp.com/)
 
 ## Scope
 ### Part 1
