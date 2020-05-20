@@ -11,15 +11,43 @@ Customizable High-Intensity-Interval-Training timer with pre-set workouts
 - Have preset timers with exercises associated with them
 
 
-Link Vue and Flask: https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/
+## Deploying
+### [Create Heroku Remote](https://devcenter.heroku.com/articles/git#prerequisites-install-git-and-the-heroku-cli)
+For an existing Heroku app, add a remote to your local repository with the heroku git:remote command with the app’s name:
 
-Deploying vue app: https://testdriven.io/blog/deploying-flask-to-heroku-with-docker-and-gitlab/
+```bash
+heroku git:remote -a <my-app>
+> sets git remote heroku to https://git.heroku.com/my-app.git
+```
 
-Build vue app: https://www.nativescript.org/vue
+### [Docker Deploy](https://devcenter.heroku.com/articles/container-registry-and-runtime#getting-started)
 
+Log in to Container Registry:
+```bash
+heroku container:login
+```
 
+Build the image and push to Container Registry:
+```bash
+heroku container:push web
+```
 
+Then release the image to your app:
+```bash
+heroku container:release web
+```
 
+Now open the app in your browser:
+```bash
+heroku open
+```
 
-cheats:
+## Resources
+[Developing a Single Page App with Flask and Vue.js](https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/)
+
+[Deploying a Flask and Vue App to Heroku with Docker and Gitlab CI](https://testdriven.io/blog/deploying-flask-to-heroku-with-docker-and-gitlab/)
+
+[Build Mobile App with Vue](https://www.nativescript.org/vue)
+
+## CL Cheats:
 npm run lint -- --fix
