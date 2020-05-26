@@ -16,15 +16,12 @@ import WorkoutForm from '@/components/children/WorkoutForm.vue';
 
 
 export default {
-  props: {
-    saveOnly: Boolean,
-  },
   components: {
     'workout-form': WorkoutForm,
   },
   computed: {
     buttonCTA() {
-      if (this.saveOnly) {
+      if (this.$store.state.saveOnly) {
         return 'Save Workout';
       }
       return 'Start Workout';
@@ -36,18 +33,24 @@ export default {
       this.$refs.workoutForm.saveWorkout();
 
       // If this is not just to save an exercise
-      if (!this.saveOnly) {
+      if (!this.$store.state.saveOnly) {
         // Switch to the timer page
         this.$router.push({ name: 'TimerPage' });
       } else {
-        window.setTimeout(this.updateDB, 1000, this.$store.state.workout);
+        // update the database with the workout in store
+        // use settimeout so vars have second to store
+        setTimeout(this.updateDB, 1000, this.$store.state.workout);
       }
     },
+    // Save workout to DB
     updateDB(payload) {
-      const path = 'http://localhost:5000/workouts';
+      // Path to API
+      const path = 'http://localhost:5000/api/1.0/workouts';
 
+      // Post Data
       axios.post(path, payload)
         .then(() => {
+          // navigate to workouts page after
           this.$router.push({ name: 'WorkoutsPage' });
         })
         .catch((error) => {

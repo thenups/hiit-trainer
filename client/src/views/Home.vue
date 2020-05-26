@@ -4,7 +4,7 @@
         <h3>Create Your Workout</h3>
     </div>
     <div class="">
-      <create-workout :saveOnly="saveOnly"></create-workout>
+      <create-workout></create-workout>
     </div>
   </div>
 </template>
@@ -21,6 +21,9 @@ export default {
   },
   components: {
     'create-workout': CreateWorkout,
+  },
+  created() {
+    this.$store.commit('updateSaveOnlyVariable', false);
   },
 };
 </script>

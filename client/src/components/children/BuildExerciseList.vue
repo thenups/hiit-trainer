@@ -64,6 +64,7 @@ export default {
     removeExercise(index) {
       this.exercises.splice(index, 1);
     },
+    // Save exercises in store
     sendExercises() {
       const cleanedExercises = [];
 

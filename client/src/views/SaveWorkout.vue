@@ -4,7 +4,7 @@
         <h3>Save Your Workout</h3>
     </div>
     <div class="">
-      <create-workout :saveOnly="saveOnly"></create-workout>
+      <create-workout></create-workout>
     </div>
   </div>
 </template>
@@ -15,12 +15,12 @@ import CreateWorkout from '@/components/CreateWorkout.vue';
 
 export default {
   data() {
-    return {
-      saveOnly: true,
-    };
   },
   components: {
     'create-workout': CreateWorkout,
+  },
+  created() {
+    this.$store.commit('updateSaveOnlyVariable', true);
   },
 };
 </script>
