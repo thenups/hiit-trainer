@@ -35,7 +35,7 @@ export default {
   name: '',
   data() {
     return {
-      exercises: [
+      exerciseList: [
         {
           name: '',
           time: '',
@@ -54,66 +54,63 @@ export default {
     radioValue() {
       return this.$store.state.workoutTiming;
     },
-    // timingOptionAdjust: {
-    //   // getter
-    //   get() {
-    //     const exList = this.exercises;
+    exercises() {
+      const exList = this.exerciseList;
+      // const firstExercise = this.firstExerciseTime;
+      // const firstRest = this.firstRest;
 
-    //     // If all of them are supposed to be different
-    //     if (this.radioValue === 'allDiff') {
-    //       // make sure time disabled is always false
-    //       exList.forEach((element) => {
-    //         const el = element;
-    //         el.timeDisabled = false;
-    //       });
-    //       return exList;
-    //     // If the exercise and rest times are different
-    //     } if (this.radioValue === 'diff') {
-    //       // Figure out what the unique first value for an exercise or rest
-    //       const exerciseInfo = this.firstExerciseTime();
-    //       const restInfo = this.firstRestTime();
+      // If all of them are supposed to be different
+      if (this.radioValue === 'allDiff') {
+        // make sure time disabled is always false
+        exList.forEach((element) => {
+          const el = element;
+          el.timeDisabled = false;
+        });
+        return exList;
+      // If the exercise and rest times are different
+      } if (this.radioValue === 'diff') {
+        // Figure out what the unique first value for an exercise or rest
+        const exerciseInfo = this.firstExerciseTime;
+        const restInfo = this.firstRestTime;
 
-    //       // Create new dictionary without indexes above
-    //       const newArr = this.exercises;
-    //       // remove exercise
-    //       newArr.splice(exerciseInfo.index, 1);
-    //       // remove rest if needed
-    //       if (restInfo) {
-    //         newArr.splice(restInfo.index - 1, 1);
-    //       }
+        // Create new dictionary without indexes above
+        const newArr = exList;
+        // remove exercise
+        newArr.splice(exerciseInfo.index, 1);
+        // remove rest if needed
+        if (restInfo) {
+          newArr.splice(restInfo.index - 1, 1);
+        }
+        newArr.forEach((element) => {
+          const el = element;
+          // for each el, if it's a rest, replace with first rest time
+          if (el.name === 'REST') {
+            el.time = restInfo.time;
+          } else {
+            el.time = exerciseInfo.time;
+          }
 
-    //       newArr.forEach((element) => {
-    //         const el = element;
-    //         // for each el, if it's a rest, replace with first rest time
-    //         if (el.name === 'REST') {
-    //           el.time = restInfo.time;
-    //         } else {
-    //           el.time = exerciseInfo.time;
-    //         }
+          el.timeDisabled = true;
+        });
 
-    //         el.timeDisabled = true;
-    //       });
+        // first exercise and rest back in
 
-    //       // first exercise and rest back in
-
-    //       return exList;
-    //     }
-    //     exList.forEach((element, index) => {
-    //       const el = element;
-
-    //       if (index === 0) {
-    //         el.timeDisabled = false;
-    //       } else {
-    //         el.timeDisabled = true;
-    //       }
-    //     });
-    //     return exList;
-    //   },
-    //   // setter
-    //   set(newValue) {
-    //     this.exercises = newValue;
-    //   },
-    // },
+        return exList;
+      }
+      // Else, if it is all the same:
+      exList.forEach((element, index) => {
+        const el = element;
+        // If it's not the first exercise, disable input for time
+        // and replace time with the first exercises time
+        if (index !== 0) {
+          el.timeDisabled = true;
+          el.time = this.firstExerciseTime().time
+        }
+      });
+      return exList;
+    },
+  },
+  methods: {
     firstExerciseTime() {
       return {
         time: this.exercises[0].time,
@@ -140,15 +137,13 @@ export default {
         index: n,
       };
     },
-  },
-  methods: {
     addExercise() {
       this.exercises.push({
         name: '',
         time: '',
         inputLineDefault: 'alert-primary',
         nameDisabled: false,
-        timeDiabled: false,
+        timeDisabled: false,
       });
 
       this.noExercises += 1;
@@ -159,7 +154,7 @@ export default {
         time: '',
         inputLineDefault: 'alert-warning',
         nameDisabled: true,
-        timeDiabled: false,
+        timeDisabled: false,
       });
 
       this.noRests += 1;
