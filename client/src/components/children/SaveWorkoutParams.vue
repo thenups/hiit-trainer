@@ -44,7 +44,7 @@ export default {
   methods: {
     sendSaveVars() {
       // Parse tags
-      const tagList = this.vars.tags.split(', ');
+      const tagList = this.cleanTags();
       // Convert order to number
       const orderNo = parseInt(this.vars.order, 10);
       // Convert date to datetime
@@ -70,6 +70,18 @@ export default {
 
       // Save sets to veux/state
       this.$store.commit('createWorkout', payload);
+    },
+    cleanTags() {
+      // make string into list based on commas
+      const tagList = this.vars.tags.split(',');
+
+      // remove white space and make everything lowercase
+      tagList.forEach((element) => {
+        element.trim().toLowerCase();
+      });
+
+      // return all unique values
+      return [...new Set(tagList)];
     },
   },
 

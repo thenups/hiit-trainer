@@ -1,6 +1,7 @@
 <template>
     <div class="formInputs">
         <div class="" id="exercises">
+          <time-options></time-options>
           <exercise-input ref="exerciseInput"></exercise-input>
         </div>
 
@@ -35,6 +36,7 @@
 </template>
 
 <script>
+import TimeOptions from '@/components/children/TimeOptions.vue';
 import ExerciseInput from '@/components/children/BuildExerciseList.vue';
 import SaveParams from '@/components/children/SaveWorkoutParams.vue';
 
@@ -46,6 +48,7 @@ export default {
     };
   },
   components: {
+    'time-options': TimeOptions,
     'exercise-input': ExerciseInput,
     'save-params': SaveParams,
   },

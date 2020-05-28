@@ -4,14 +4,14 @@
         <h3>Create Your Workout</h3>
     </div>
     <div class="">
-      <create-workout></create-workout>
+      <workout-lander></workout-lander>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import CreateWorkout from '@/components/CreateWorkout.vue';
+import WorkoutLander from '@/components/WorkoutLander.vue';
 
 export default {
   data() {
@@ -20,7 +20,7 @@ export default {
     };
   },
   components: {
-    'create-workout': CreateWorkout,
+    'workout-lander': WorkoutLander,
   },
   created() {
     this.$store.commit('updateSaveOnlyVariable', false);
