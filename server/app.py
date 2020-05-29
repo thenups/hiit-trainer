@@ -60,13 +60,7 @@ def all_workouts():
         #Get get data from form
         post_data = request.get_json()
         #Add to DB
-        docu = {
-                'reps': post_data.get('reps'),
-                'exercises': post_data.get('exercises'),
-                'tags': post_data.get('tags')
-            }
-        
-        mongo.db.workouts.insert_one(docu)
+        mongo.db.workouts.insert_one(post_data)
 
         response_object['message'] = 'Workout added!'
 
