@@ -18,7 +18,8 @@
 </template>
 
 <script>
-
+// import startExerciseSound from require('./assets/sounds/startExercise.mp3');
+// import timesUpSound from require('./assets/sounds/timesUp.mp3');
 
 export default {
   data() {
@@ -34,6 +35,11 @@ export default {
         total: 0,
       },
       paused: false,
+      sounds: {
+        startExercise: 'https://res.cloudinary.com/hgqdmejyd/video/upload/v1590789478/sounds/startExercise_ooyhsn.mp3',
+        timesUp: 'https://res.cloudinary.com/hgqdmejyd/video/upload/v1590789478/sounds/timesUp_igoemw.mp3',
+      },
+      player: new Audio(),
     };
   },
   mounted() {
@@ -101,6 +107,10 @@ export default {
 
         // What to do if the exercise hasn't finished
       } else if (updatedDict.exercise.time > 0) {
+        // If there are 3 seconds left in the countdown, play sound per second
+        if (updatedDict.exercise.time < 3) {
+          this.playSound(this.sounds.timesUp);
+        }
         // Write the correct exercise name
         this.timerInfo.exerciseName = updatedDict.exercise.name;
         // continue countdown
@@ -108,6 +118,7 @@ export default {
 
         // What to do if exercise is over
       } else {
+        this.playSound(this.sounds.timesUp); // play last times up noise
         window.setTimeout(this.nextExercise, 1000, updatedDict, r, e, n);
       }
     },
@@ -130,6 +141,9 @@ export default {
         updatedDict = this.updateTimeDict(updatedDict, updatedN, e);
         newR -= 1;
       }
+
+      // Play new exercise sound
+      this.playSound(this.sounds.startExercise);
 
       // Start countdown for next exercise
       this.countdown(updatedDict, newR, e, updatedN);
@@ -182,7 +196,10 @@ export default {
 
       return time;
     },
-
+    playSound(option) {
+      this.player.src = option;
+      this.player.play();
+    },
   },
 };
 </script>
