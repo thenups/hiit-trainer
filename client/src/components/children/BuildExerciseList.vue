@@ -1,7 +1,7 @@
 <template>
     <div class="exerciseRow">
         <div v-for="(exercise, index) in exercises"
-          :key = "exercise"
+          :key = "exercise.id"
           :class="exercise.inputLineDefault"
           class="form-row alert exerciseInput">
           <div class="col-7">
@@ -45,6 +45,7 @@ export default {
         },
       ],
       exerciseTiming: {
+        restTime: false,
         noExercises: 1,
         noRests: 0,
       },
@@ -68,35 +69,36 @@ export default {
         });
         return exList;
       // If the exercise and rest times are different
-      } if (this.radioValue === 'diff') {
-        // Figure out what the unique first value for an exercise or rest
-        const exerciseInfo = this.firstExerciseTime;
-        const restInfo = this.firstRestTime;
-
-        // Create new dictionary without indexes above
-        const newArr = exList;
-        // remove exercise
-        newArr.splice(exerciseInfo.index, 1);
-        // remove rest if needed
-        if (restInfo) {
-          newArr.splice(restInfo.index - 1, 1);
-        }
-        newArr.forEach((element) => {
-          const el = element;
-          // for each el, if it's a rest, replace with first rest time
-          if (el.name === 'REST') {
-            el.time = restInfo.time;
-          } else {
-            el.time = exerciseInfo.time;
-          }
-
-          el.timeDisabled = true;
-        });
-
-        // first exercise and rest back in
-
-        return exList;
       }
+      // if (this.radioValue === 'diff') {
+      //   // Figure out what the unique first value for an exercise or rest
+      //   const exerciseInfo = this.firstExerciseTime;
+      //   const restInfo = this.firstRestTime;
+
+      //   // Create new dictionary without indexes above
+      //   const newArr = exList;
+      //   // remove exercise
+      //   newArr.splice(exerciseInfo.index, 1);
+      //   // remove rest if needed
+      //   if (restInfo) {
+      //     newArr.splice(restInfo.index - 1, 1);
+      //   }
+      //   newArr.forEach((element) => {
+      //     const el = element;
+      //     // for each el, if it's a rest, replace with first rest time
+      //     if (el.name === 'REST') {
+      //       el.time = restInfo.time;
+      //     } else {
+      //       el.time = exerciseInfo.time;
+      //     }
+
+      //     el.timeDisabled = true;
+      //   });
+
+      //   // first exercise and rest back in
+
+      //   return exList;
+      // }
       // Else, if it is all the same:
       exList.forEach((element, index) => {
         const el = element;
@@ -104,13 +106,11 @@ export default {
         // and replace time with the first exercises time
         if (index !== 0) {
           el.timeDisabled = true;
-          el.time = this.firstExerciseTime().time
+          el.time = 0;
         }
       });
       return exList;
     },
-  },
-  methods: {
     firstExerciseTime() {
       return {
         time: this.exercises[0].time,
@@ -137,6 +137,8 @@ export default {
         index: n,
       };
     },
+  },
+  methods: {
     addExercise() {
       this.exercises.push({
         name: '',
