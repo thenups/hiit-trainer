@@ -1,12 +1,12 @@
 <template>
     <div class="exerciseRow">
         <div v-for="(exercise, index) in exercises"
-          :key = "index"
+          :key = "exercise.id"
           :class="exercise.inputLineDefault"
           class="form-row alert exerciseInput">
           <div class="col-7">
             <input type="text"
-              :disabled="exercise.disabled"
+              :disabled="exercise.nameDisabled"
               v-model="exercise.name"
               class="form-control"
               placeholder="Exercise"
@@ -14,6 +14,7 @@
           </div>
           <div class="col-4">
             <input type="number"
+              :disabled="exercise.timeDisabled"
               v-model="exercise.time"
               class="form-control"
               placeholder="Time (secs)"
@@ -34,36 +35,145 @@ export default {
   name: '',
   data() {
     return {
-      exercises: [
+      exerciseList: [
         {
           name: '',
           time: '',
+          type: 1,
           inputLineDefault: 'alert-primary',
-          disabled: false,
+          nameDisabled: false,
+          timeDisabled: false,
         },
       ],
+      exerciseTiming: {
+        restTime: false,
+        noExercises: 1,
+        noRests: 0,
+      },
     };
+  },
+  computed: {
+    radioValue() {
+      return this.$store.state.workoutTiming;
+    },
+    exercises() {
+      const exList = this.exerciseList;
+
+      // If all of them are supposed to be different
+      if (this.radioValue === 'allDiff') {
+        return this.disableAllTimes(exList, false, '');
+      // If the exercise and rest times are different
+      }
+      if (this.radioValue === 'diff') {
+        // Figure out what the unique first value for an exercise or rest
+        const firstExerciseTime = this.firstTime(1);
+        const firstRestTime = this.firstTime(0);
+
+        // if there are both exercises and rests
+        if (firstExerciseTime !== false && firstRestTime !== false) {
+          exList.forEach(((element, index) => {
+            const el = element;
+            const i = index;
+
+            // make sure the first exercise or rest inputs are not disabled
+            if (i === firstExerciseTime.index || i === firstRestTime.index) {
+              el.timeDisabled = false;
+            }
+
+            // if it's not the first exercise or rest, update time
+            if (!(i === firstExerciseTime.index || i === firstRestTime.index)) {
+              // disable time field
+              el.timeDisabled = true;
+              // add appropriate time based on type
+              if (el.type === 1) {
+                el.time = firstExerciseTime.time;
+              } else {
+                el.time = firstRestTime.time;
+              }
+            }
+          }));
+
+          return exList;
+        }
+        // else make everything same as the first element
+        return this.disableAllTimes(exList, true, this.firstItemTime.time);
+      }
+      // Else, if it is all the same:
+      return this.disableAllTimes(exList, true, this.firstItemTime.time);
+    },
+    // return the first exercise time
+    firstItemTime() {
+      return {
+        time: this.exerciseList[0].time,
+        index: 0,
+      };
+    },
   },
   methods: {
     addExercise() {
       this.exercises.push({
         name: '',
         time: '',
+        type: 1,
         inputLineDefault: 'alert-primary',
-        disabled: false,
+        nameDisabled: false,
+        timeDisabled: false,
       });
+
+      this.noExercises += 1;
     },
     addRest() {
       this.exercises.push({
         name: 'REST',
         time: '',
+        type: 0,
         inputLineDefault: 'alert-warning',
-        disabled: true,
+        nameDisabled: true,
+        timeDisabled: false,
       });
+
+      this.noRests += 1;
     },
     removeExercise(index) {
       this.exercises.splice(index, 1);
     },
+    disableAllTimes(exList, disabled, time) {
+      exList.forEach((element, index) => {
+        const el = element;
+        // If it's not the first exercise, disable input for time
+        if (index !== 0) {
+          el.timeDisabled = disabled;
+
+          if (disabled) { // if times are disabled, replace time
+            el.time = time;
+          }
+        }
+      });
+
+      return exList;
+    },
+    // return first time depending on type
+    firstTime(choice) {
+      let n = 0;
+
+      for (let i = 0; i < this.exerciseList.length; i += 1) {
+        if (this.exerciseList[i].type === choice) {
+          n = i;
+          break;
+        } else {
+          n = false;
+        }
+      }
+
+      if (n === false) {
+        return false;
+      }
+      return {
+        time: this.exerciseList[n].time,
+        index: n,
+      };
+    },
+    // Save exercises in store
     sendExercises() {
       const cleanedExercises = [];
 
@@ -74,7 +184,6 @@ export default {
           time: Number(this.exercises[i].time),
         });
       }
-
       const payload = [
         {
           type: 'exercises',

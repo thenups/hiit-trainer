@@ -6,10 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     workout: {},
-    workoutInProgress: {
-      exercise: '',
-      nextExercise: '',
-    },
+    workoutTiming: 'allDiff',
   },
   mutations: {
     // create workout dictionary by iterating through list of values
@@ -17,6 +14,13 @@ export default new Vuex.Store({
       payload.forEach((i) => {
         state.workout[i.type] = i.data;
       });
+    },
+    //
+    updateSaveOnlyVariable(state, payload) {
+      state.saveOnly = payload;
+    },
+    workoutTimingUpdate(state, payload) {
+      state.workoutTiming = payload;
     },
   },
   actions: {
