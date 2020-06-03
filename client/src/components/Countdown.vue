@@ -59,7 +59,7 @@ export default {
       };
 
       // Start countdown
-      this.countdown(cd, this.workout.reps, this.workout.exercises);
+      this.countdown(cd, this.workout.sets, this.workout.exercises);
     },
     // Setup Timer with actual workout
     setupTimer(cd, r, e) {
@@ -189,10 +189,10 @@ export default {
         repTime += w.exercises[i].time; // add number to totalTime
       }
 
-      const time = repTime * w.reps;
+      const time = repTime * w.sets;
 
       // save total number of reps
-      this.allReps.total = w.exercises.length * w.reps;
+      this.allReps.total = w.exercises.length * w.sets;
 
       return time;
     },
