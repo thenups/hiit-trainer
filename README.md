@@ -51,12 +51,12 @@ Now open the app in your browser:
 heroku open
 ```
 
+#### *Pipeline now created through GitLab*
+
+
 ## Resources
 [Developing a Single Page App with Flask and Vue.js](https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/)
 
 [Deploying a Flask and Vue App to Heroku with Docker and Gitlab CI](https://testdriven.io/blog/deploying-flask-to-heroku-with-docker-and-gitlab/)
 
 [Build Mobile App with Vue](https://www.nativescript.org/vue)
-
-## CL Cheats:
-npm run lint -- --fix
