@@ -1,6 +1,6 @@
 <template>
     <div class="radioOptions">
-        <div>Please select an option for how your exercise will be timed:</div>
+        <div>Please select a time option:</div>
         <div v-for="(value, name) in radioOptions"
             v-bind:key="name"
             class="form-check form-check-inline">
