@@ -62,66 +62,54 @@ export default {
 
       // If all of them are supposed to be different
       if (this.radioValue === 'allDiff') {
-        // make sure time disabled is always false
-        exList.forEach((element) => {
-          const el = element;
-          el.timeDisabled = false;
-        });
-        return exList;
+        return this.disableAllTimes(exList, false);
       // If the exercise and rest times are different
       }
-      // if (this.radioValue === 'diff') {
-      //   // Figure out what the unique first value for an exercise or rest
-      //   const exerciseInfo = this.firstExerciseTime;
-      //   const restInfo = this.firstRestTime;
+      if (this.radioValue === 'diff') {
+        // Figure out what the unique first value for an exercise or rest
+        const exerciseInfo = this.firstExerciseTime;
+        const restInfo = this.firstRestTime;
 
-      //   // Create new dictionary without indexes above
-      //   const newArr = exList;
-      //   // remove exercise
-      //   newArr.splice(exerciseInfo.index, 1);
-      //   // remove rest if needed
-      //   if (restInfo) {
-      //     newArr.splice(restInfo.index - 1, 1);
-      //   }
-      //   newArr.forEach((element) => {
-      //     const el = element;
-      //     // for each el, if it's a rest, replace with first rest time
-      //     if (el.name === 'REST') {
-      //       el.time = restInfo.time;
-      //     } else {
-      //       el.time = exerciseInfo.time;
-      //     }
-
-      //     el.timeDisabled = true;
-      //   });
-
-      //   // first exercise and rest back in
-
-      //   return exList;
-      // }
-      // Else, if it is all the same:
-      exList.forEach((element, index) => {
-        const el = element;
-        // If it's not the first exercise, disable input for time
-        // and replace time with the first exercises time
-        if (index !== 0) {
-          el.timeDisabled = true;
-          el.time = 0;
+        // Create new dictionary without indexes above
+        const newArr = exList;
+        // remove exercise
+        newArr.splice(exerciseInfo.index, 1);
+        // remove rest if needed
+        if (restInfo) {
+          newArr.splice(restInfo.index - 1, 1);
         }
-      });
-      return exList;
+        newArr.forEach((element) => {
+          const el = element;
+          // for each el, if it's a rest, replace with first rest time
+          if (el.name === 'REST') {
+            el.time = restInfo.time;
+          } else {
+            el.time = exerciseInfo.time;
+          }
+
+          el.timeDisabled = true;
+        });
+
+        // first exercise and rest back in
+
+        return exList;
+      }
+      // Else, if it is all the same:
+      return this.disableAllTimes(exList, true);
     },
+    // return the first exercise time
     firstExerciseTime() {
       return {
-        time: this.exercises[0].time,
+        time: this.exerciseList[0].time,
         index: 0,
       };
     },
+    // return first rest time
     firstRestTime() {
       let n = 0;
 
-      for (let i = 0; i < this.exercises.length; i += 1) {
-        if (this.exercises[i].name === 'REST') {
+      for (let i = 0; i < this.exerciseList.length; i += 1) {
+        if (this.exerciseList[i].name === 'REST') {
           n = i;
           break;
         } else {
@@ -133,7 +121,7 @@ export default {
         return false;
       }
       return {
-        time: this.exercises[n].time,
+        time: this.exerciseList[n].time,
         index: n,
       };
     },
@@ -164,18 +152,19 @@ export default {
     removeExercise(index) {
       this.exercises.splice(index, 1);
     },
-    // Compute whether or not the time input should be disabled
-    // timeInputCalc(choice) {
-    //   if (choice === 'exercise') {
+    disableAllTimes(exList, disabled) {
+      exList.forEach((element, index) => {
+        const el = element;
+        // If it's not the first exercise, disable input for time
+        // and replace time with the first exercises time
+        if (index !== 0) {
+          el.timeDisabled = disabled;
+          el.time = this.firstExerciseTime.time;
+        }
+      });
 
-    //   } else {
-
-    //   }
-    //   // What to do for all the different radio values
-
-
-    //   return false;
-    // },
+      return exList;
+    },
     // Save exercises in store
     sendExercises() {
       const cleanedExercises = [];
