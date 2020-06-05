@@ -43,7 +43,6 @@ import SaveParams from '@/components/children/SaveWorkoutParams.vue';
 export default {
   data() {
     return {
-      exercises: [],
       sets: '',
     };
   },
@@ -51,6 +50,11 @@ export default {
     'time-options': TimeOptions,
     'exercise-input': ExerciseInput,
     'save-params': SaveParams,
+  },
+  mounted() {
+    if (Object.keys(this.$store.state.workout).length > 0) {
+      this.sets = this.$store.state.workout.sets;
+    }
   },
   computed: {
     saveOnly() {
@@ -85,6 +89,10 @@ export default {
       if (this.$store.state.saveOnly) {
         this.$refs.saveVars.sendSaveVars();
       }
+    },
+    resetWorkout() {
+      this.sets = '';
+      this.$refs.exerciseInput.resetExercises();
     },
   },
 };

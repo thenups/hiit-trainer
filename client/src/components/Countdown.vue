@@ -10,9 +10,15 @@
             <div id="totalTimer" class="timerNumbers totalsBoxes">
               <div class="separator">{{ timerInfo.totalTime }}</div>
             </div>
-            <div id="playPause" class="playButton alterTimerBtns" v-if="!paused">||</div>
-            <div id="playPause" class="playButton alterTimerBtns" v-if="paused">play</div>
-            <div id="cancel" class="alterTimerBtns">X</div>
+            <button id="playPause"
+              @click="pause()"
+              class="playButton alterTimerBtns"
+              v-show="!paused">||</button>
+            <button id="playPause"
+              @click="play()"
+              class="playButton alterTimerBtns"
+              v-show="paused">play</button>
+            <button @click="cancelWorkout()" id="cancel" class="alterTimerBtns">X</button>
         </div>
     </div>
 </template>
@@ -35,6 +41,7 @@ export default {
         total: 0,
       },
       paused: false,
+      pausedInfo: {},
       sounds: {
         startExercise: 'https://res.cloudinary.com/hgqdmejyd/video/upload/v1590789478/sounds/startExercise_ooyhsn.mp3',
         timesUp: 'https://res.cloudinary.com/hgqdmejyd/video/upload/v1590789478/sounds/timesUp_igoemw.mp3',
@@ -84,6 +91,9 @@ export default {
     },
     // Countdown given a time
     countdown(etDict, r, e, n) {
+      // pause countdown
+      if (this.paused) return;
+
       const updatedDict = etDict;
 
       // Look at dict and countdown 1 second per item
@@ -92,7 +102,12 @@ export default {
         updatedDict[key].time -= 1;
       });
 
-      // If workout is over
+      this.pausedInfo.dict = updatedDict;
+      this.pausedInfo.sets = r;
+      this.pausedInfo.exercises = e;
+      this.pausedInfo.exerciseNo = n;
+
+      // If there are no more sets left
       if (r === 0) {
         this.workoutComplete();
 
@@ -156,6 +171,22 @@ export default {
       updatedDict.exercise.name = e[n].name;
 
       return updatedDict;
+    },
+    pause() {
+      this.paused = true;
+    },
+    // Play workout
+    play() {
+      this.paused = false;
+      this.countdown(this.pausedInfo.dict,
+        this.pausedInfo.sets,
+        this.pausedInfo.exercises,
+        this.pausedInfo.exerciseNo);
+    },
+    // Go back to workout generator
+    cancelWorkout() {
+      this.paused = true;
+      this.$router.push({ name: 'HomePage' });
     },
     // Finish Workout!
     workoutComplete() {

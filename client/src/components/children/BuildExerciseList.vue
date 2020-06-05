@@ -40,17 +40,40 @@ export default {
           name: '',
           time: '',
           type: 1,
+          // think about syncing the following two with "type"
           inputLineDefault: 'alert-primary',
           nameDisabled: false,
           timeDisabled: false,
         },
       ],
-      exerciseTiming: {
-        restTime: false,
-        noExercises: 1,
-        noRests: 0,
-      },
+      workoutFromState: this.$store.state.workout,
     };
+  },
+  mounted() {
+    const storeList = this.$store.state.workout.exercises;
+
+    // if there is already a workout in store:
+    if (storeList !== undefined) {
+      // Clear exercise list
+      this.exerciseList = [];
+
+      // make add additional fields
+      storeList.forEach((element) => {
+        const el = element;
+        el.nameDisabled = false;
+        el.timeDisabled = false;
+        if (el.name === 'REST') {
+          el.type = 0;
+          el.inputLineDefault = 'alert-warning';
+        } else {
+          el.type = 0;
+          el.inputLineDefault = 'alert-primary';
+        }
+        // push the element into the fresh exercise list
+        this.exerciseList.push(el);
+      });
+      // this.exerciseList = l;
+    }
   },
   computed: {
     radioValue() {
@@ -119,8 +142,6 @@ export default {
         nameDisabled: false,
         timeDisabled: false,
       });
-
-      this.noExercises += 1;
     },
     addRest() {
       this.exercises.push({
@@ -131,11 +152,22 @@ export default {
         nameDisabled: true,
         timeDisabled: false,
       });
-
-      this.noRests += 1;
     },
     removeExercise(index) {
       this.exercises.splice(index, 1);
+    },
+    resetExercises() {
+      this.exerciseList = [
+        {
+          name: '',
+          time: '',
+          type: 1,
+          // think about syncing the following two with "type"
+          inputLineDefault: 'alert-primary',
+          nameDisabled: false,
+          timeDisabled: false,
+        },
+      ];
     },
     disableAllTimes(exList, disabled, time) {
       exList.forEach((element, index) => {

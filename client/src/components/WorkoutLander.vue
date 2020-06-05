@@ -1,10 +1,15 @@
 <template>
-    <form id="createWorkout" @submit.prevent="saveWorkoutData">
+    <form id="createWorkout" @submit.prevent="saveWorkoutData" @reset.prevent="resetWorkoutData">
         <workout-form ref="workoutForm"></workout-form>
-        <div class="form-row submitBtn">
+        <div class="form-row formBtn">
           <button id="submitForm"
             type="submit"
-            class="btn btn-outline-success btn-lg">{{ buttonCTA }}</button>
+            class="btn btn-success btn-lg">{{ buttonCTA }}</button>
+        </div>
+        <div class="form-row formBtn">
+          <button id="resetForm"
+            type="reset"
+            class="btn btn-outline-light btn-lg">Reset</button>
         </div>
     </form>
 </template>
@@ -42,6 +47,9 @@ export default {
         setTimeout(this.updateDB, 1000, this.$store.state.workout);
       }
     },
+    resetWorkoutData() {
+      this.$refs.workoutForm.resetWorkout();
+    },
     // Save workout to DB
     updateDB(payload) {
       // Path to API
@@ -63,10 +71,11 @@ export default {
 </script>
 
 <style scoped>
-  .submitBtn button{
+  .formBtn button{
     width: 60%;
     margin: auto;
     display: block;
+    margin-bottom: 10px;
   }
 
   /* .center {
