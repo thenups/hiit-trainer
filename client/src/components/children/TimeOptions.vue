@@ -22,7 +22,7 @@ export default {
       radioOptions: {
         same: 'Same Exercise and Rest',
         diff: 'Different Exercise and Rest',
-        allDiff: 'All Different',
+        unique: 'All Different',
       },
     };
   },

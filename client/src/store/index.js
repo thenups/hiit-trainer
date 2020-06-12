@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     workout: {},
-    workoutTiming: 'allDiff',
+    workoutTiming: 'unique',
   },
   mutations: {
     // create workout dictionary by iterating through list of values

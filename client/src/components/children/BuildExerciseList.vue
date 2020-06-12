@@ -66,7 +66,7 @@ export default {
           el.type = 0;
           el.inputLineDefault = 'alert-warning';
         } else {
-          el.type = 0;
+          el.type = 1;
           el.inputLineDefault = 'alert-primary';
         }
         // push the element into the fresh exercise list
@@ -83,7 +83,7 @@ export default {
       const exList = this.exerciseList;
 
       // If all of them are supposed to be different
-      if (this.radioValue === 'allDiff') {
+      if (this.radioValue === 'unique') {
         return this.disableAllTimes(exList, false, '');
       // If the exercise and rest times are different
       }

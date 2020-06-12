@@ -55,8 +55,6 @@ export default {
     if (Object.keys(this.$store.state.workout).length > 0) {
       this.sets = this.$store.state.workout.sets;
     }
-    // reset the radio timing button
-    this.$store.commit('workoutTimingUpdate', 'allDiff');
   },
   computed: {
     saveOnly() {
