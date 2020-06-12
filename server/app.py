@@ -1,7 +1,7 @@
 #################################################
 # Dependencies
 #################################################
-import numpy as np
+# import numpy as np
 import uuid
 
 from flask import Flask, render_template, jsonify, redirect, request
