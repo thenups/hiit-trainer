@@ -85,7 +85,7 @@ export default {
       // Save sets to veux/state
       this.$store.commit('createWorkout', payload);
 
-      // For conditional child
+      // For conditional save vairables
       if (this.$store.state.saveOnly) {
         this.$refs.saveVars.sendSaveVars();
       }

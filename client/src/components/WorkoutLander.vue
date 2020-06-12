@@ -37,14 +37,14 @@ export default {
       // Save child data to veux
       this.$refs.workoutForm.saveWorkout();
 
-      // If this is not just to save an exercise
-      if (!this.$store.state.saveOnly) {
-        // Switch to the timer page
-        this.$router.push({ name: 'TimerPage' });
-      } else {
+      // If this is to save a workout
+      if (this.$store.state.saveOnly) {
         // update the database with the workout in store
         // use settimeout so vars have second to store
         setTimeout(this.updateDB, 1000, this.$store.state.workout);
+      } else {
+        // Switch to the timer page
+        this.$router.push({ name: 'TimerPage' });
       }
     },
     resetWorkoutData() {

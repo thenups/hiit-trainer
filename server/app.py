@@ -36,7 +36,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 #################################################
 MONGO_URL = os.environ.get('MONGO_URL')
 if not MONGO_URL:
-    MONGO_URL = 'mongodb://localhost:27017/rest';
+    MONGO_URL = 'mongodb://localhost:27017/workouts';
 
 app.config["MONGO_URI"] = MONGO_URL
 mongo = PyMongo(app)
