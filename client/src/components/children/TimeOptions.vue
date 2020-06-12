@@ -9,7 +9,7 @@
                 name="inlineRadioOptions"
                 :value="name"
                 v-on:change="updateExerciseTimeType($event.target.value)"
-                checked>
+                :checked="name == selected">
             <label class="form-check-label">{{ value }}</label>
         </div>
     </div>
@@ -25,6 +25,11 @@ export default {
         allDiff: 'All Different',
       },
     };
+  },
+  computed: {
+    selected() {
+      return this.$store.state.workoutTiming;
+    },
   },
   methods: {
     updateExerciseTimeType(value) {
